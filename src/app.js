@@ -2,6 +2,7 @@ import express from "express";
 import logger from "./logger.js";
 import morgan from "morgan";
 import cors from "cors";
+import healthCheckRouter from "./routes/healthCheckRoute.js"
 
 const app = express();
 const morganFormat = ":method :url :status :response-time ms";
@@ -33,9 +34,6 @@ app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 
-app.get("/test", (req, res) => {
-  logger.info("A test get request was sent");
-  res.status(200).send("THIS IS A TEST ROUTE SERVER WORKING NORMALLY");
-});
+app.use("/api/v1/healthcheck", healthCheckRouter);
 
 export { app };
